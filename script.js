@@ -55,7 +55,28 @@ function onButtonClick(event, action='operands') {
             isOperatorEntered = false;
             finalResult = "";
             break;
-        case 'dot':
+            case 'Enter':
+                if(operator === '+') {
+                    finalResult = (+first_Operand) + (+second_Operand);
+                }
+                if(operator === '-') {
+                    finalResult = (+first_Operand) - (+second_Operand);
+                }
+                if(operator === '*') {
+                    finalResult = (+first_Operand) * (+second_Operand);
+                }
+                if(operator === '/') {
+                    finalResult = (+first_Operand) / (+second_Operand);
+                }
+                document.getElementById('result').value = finalResult;
+                // resetValues();
+                first_Operand = finalResult.toString();
+                second_Operand = "";
+                isOperatorEntered = false;
+                finalResult = "";
+                break;
+            
+            case 'dot':
             if(!isOperatorEntered) {
                 first_Operand = first_Operand.concat(enteredText);
                     document.getElementById('result').value = first_Operand;
@@ -129,8 +150,17 @@ function createDivElement(className) {
   const input = document.createElement('input');
   input.id = 'result';
   input.type = 'text';
-  input.addEventListener('click', (event) => {
-    onButtonClick(event)
+
+  input.addEventListener('keyup', (event) => {
+    let action = 'operands';
+    if(event.key === '+') action = 'add';
+    if(event.key === '-') action = 'subtract'
+    if(event.key === '*') action = 'multiply'
+    if(event.key === '/') action = 'division'
+    if(event.key === '.') action = 'dot'
+    if(event.key === 'Enter') action = 'equal'
+    if(event.key === 'Backspace') action = 'backspace'
+    onButtonClick(event, action)
   })
 
   const operators = createDivElement('row operators');
